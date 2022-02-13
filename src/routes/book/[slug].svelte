@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { get } from 'idb-keyval';
-	import { verifyPermission } from '$lib/domains/services/fileSystem';
+	import { verifyPermission } from '$lib/services/fileSystem';
 	import { afterNavigate } from '$app/navigation';
-  import type { Book } from "$lib/domains/models/Book";
+  import type { Book } from "$lib/domains/Book";
 
 	let showNeedPermission = false;
 	let img;

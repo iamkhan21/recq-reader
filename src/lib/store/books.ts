@@ -1,19 +1,14 @@
 import { writable } from 'svelte/store';
-import { get, set } from 'idb-keyval';
-import type { Book } from '$lib/domains/models/Book';
+import type { Book } from '$lib/domains/Book';
+import { addBookToStorage } from '$lib/services/storage';
 
 export const books = writable<Book[] | null>(null);
 
-const setBooks = (bookList) => books.set(bookList);
-
-export const loadBooksFromStorage = () => {
-	get('books').then((books: Book[] = []) => setBooks(books));
+export const setBooks = (bookList) => {
+	books.set(bookList);
 };
 
 export const addBook = (file: Book) => {
-	books.update((files) => {
-		const books = [...files, file];
-		set('books', books);
-		return books;
-	});
+	books.update((files) => [file, ...files]);
+	addBookToStorage(file);
 };

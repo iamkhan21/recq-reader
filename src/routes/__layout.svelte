@@ -1,3 +1,19 @@
+<script context="module" lang="ts">
+	import { browser } from '$app/env';
+	import { setBooks } from '$lib/store/books';
+	import { loadBooksFromStorage } from '$lib/services/storage';
+
+	export async function load() {
+		if (browser) {
+			loadBooksFromStorage().then((books) => setBooks(books));
+		}
+
+		return {
+			status: 200
+		};
+	}
+</script>
+
 <script lang="ts">
 	import '../assets/styles/main.pcss';
 	import 'uno.css';
