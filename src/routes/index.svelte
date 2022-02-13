@@ -16,6 +16,18 @@
 <script lang="ts">
 	import BookList from '$lib/components/bookshelf/BookList.svelte';
 	import ControlPanel from '$lib/components/bookshelf/ControlPanel.svelte';
+	import { onMount } from 'svelte';
+	import MyWorker from '../workers/search.ts?worker';
+
+	onMount(() => {
+		const myWorker = new MyWorker();
+
+		myWorker.postMessage('sfdgsdfgsdfg');
+		myWorker.onmessage = function (e) {
+			console.log(e.data);
+			console.log('Message received from worker');
+		};
+	});
 </script>
 
 <article>

@@ -2,8 +2,6 @@ import adapter from '@sveltejs/adapter-netlify';
 import sveltePreprocess from 'svelte-preprocess';
 import { presetUno } from 'unocss';
 import Unocss from 'unocss/vite';
-import { VitePWA } from 'vite-plugin-pwa';
-
 
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
@@ -15,10 +13,9 @@ const config = {
 		adapter: adapter(),
 		vite: {
 			plugins: [
-				VitePWA(),
 				Unocss({
 					presets: [presetUno()]
-				})
+				}),
 			]
 		}
 	}
