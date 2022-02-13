@@ -4,7 +4,7 @@
 </script>
 
 <header class="flex gap-x-10 items-center justify-between">
-	<h4>RecqBooks</h4>
+	<h4>RecqReader</h4>
 	<nav class="flex gap-x-5">
 		<a class="p-0" href="/">Bookshelf</a>
 		<a class="p-0" href="/about">About</a>
