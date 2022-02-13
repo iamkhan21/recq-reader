@@ -28,7 +28,8 @@ specifiers:
   tslib: 2.3.1
   typescript: 4.5.5
   unocss: 0.24.4
-  vite-plugin-pwa: ^0.11.13
+  vite: 2.8.1
+  vite-plugin-pwa: 0.11.13
 
 dependencies:
   epubjs: 0.3.92
@@ -60,7 +61,8 @@ devDependencies:
   tslib: 2.3.1
   typescript: 4.5.5
   unocss: 0.24.4
-  vite-plugin-pwa: 0.11.13
+  vite: 2.8.1
+  vite-plugin-pwa: 0.11.13_vite@2.8.1
 
 packages:
 
@@ -4689,7 +4691,7 @@ packages:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
     dev: true
 
-  /vite-plugin-pwa/0.11.13:
+  /vite-plugin-pwa/0.11.13_vite@2.8.1:
     resolution: {integrity: sha512-Ssj14m3TRVLfkFEAWSMcFE2d1cSdEZyrVTzfY2lSL+umHYvcIFHVDAY143sygtBCb44OPczsAOmWwBTxwOvh7g==}
     peerDependencies:
       vite: ^2.0.0
@@ -4698,6 +4700,7 @@ packages:
       fast-glob: 3.2.11
       pretty-bytes: 5.6.0
       rollup: 2.67.2
+      vite: 2.8.1
       workbox-build: 6.4.2
       workbox-window: 6.4.2
     transitivePeerDependencies:

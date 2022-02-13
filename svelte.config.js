@@ -4,6 +4,7 @@ import { presetUno } from 'unocss';
 import Unocss from 'unocss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
