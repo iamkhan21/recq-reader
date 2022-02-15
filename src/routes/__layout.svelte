@@ -17,6 +17,12 @@
 <script lang="ts">
 	import '../assets/styles/main.pcss';
 	import 'uno.css';
+	import { onMount } from 'svelte';
+	import { checkFeaturesSupport } from '$lib/utils/checkFeaturesSupport';
+
+	onMount(() => {
+		checkFeaturesSupport();
+	});
 </script>
 
 <header class="flex gap-x-10 items-center justify-between">
