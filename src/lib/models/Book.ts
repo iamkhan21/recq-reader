@@ -12,3 +12,9 @@ export interface Book {
 	updated: number;
 	created: number;
 }
+
+export interface BookControls {
+	next: () => void;
+	prev: () => void;
+	destroy: () => void;
+}

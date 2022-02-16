@@ -12,15 +12,19 @@
 <script lang="ts">
 	import { verifyPermission } from '$lib/services/fileSystem';
 	import { goto } from '$app/navigation';
-	import type { Book, UID } from '$lib/models/Book';
+	import type { Book, BookControls, UID } from '$lib/models/Book';
 	import { findBookToStorage } from '$lib/services/storage';
 	import { showAlert } from '$lib/utils/alerts';
 	import { onMount } from 'svelte';
 	import { renderBook } from '$lib/services/book';
+	import Spinner from '$lib/components/shared/Spinner.svelte';
 
 	export let uid: UID;
+
 	let bookObj: Book;
 	let destroyBook;
+	let nextPage = () => {};
+	let prevPage = () => {};
 
 	async function checkFilePermission(book: Book) {
 		try {
@@ -46,10 +50,10 @@
 	}
 
 	function renderBookFile(book: Book) {
-		bookObj = book;
+		renderBook(book.file, 'viewer').then((data: BookControls) => {
+			bookObj = book;
 
-		renderBook(book.file, 'area').then((data) => {
-			console.log(2, data);
+			({ destroy: destroyBook, next: nextPage, prev: prevPage } = data);
 		});
 	}
 
@@ -86,10 +90,28 @@
 	</title>
 </svelte:head>
 
-<article id="area" />
+<article>
+	<button class="btn" on:click={prevPage}>prev</button>
+	<section id="viewer" />
+	<button class="btn" on:click={nextPage}>next</button>
+	{#if !bookObj}
+		<Spinner />
+	{/if}
+</article>
 
-<style global lang="postcss">
-	.epub-container {
-		margin-inline: auto;
+<style lang="postcss">
+	article {
+		position: relative;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.btn {
+		margin-inline: 20px;
+	}
+
+	#viewer {
+		min-width: 700px;
 	}
 </style>

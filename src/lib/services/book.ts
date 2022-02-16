@@ -1,4 +1,4 @@
-import type { Book, BookMeta } from '$lib/models/Book';
+import type { Book, BookControls, BookMeta } from '$lib/models/Book';
 import BookWorker from '../../workers/book.worker.ts?worker';
 import ePub from 'epubjs';
 import { blobToBase64 } from '$lib/services/fileSystem';
@@ -43,7 +43,7 @@ function getBookMetadata(file: ArrayBuffer): Promise<BookMeta> {
 	});
 }
 
-export function renderBook(file: FileSystemFileHandle, selector): Promise<any> {
+export function renderBook(file: FileSystemFileHandle, selector): Promise<BookControls> {
 	return new Promise((resolve, reject) => {
 		const worker = new BookWorker();
 
@@ -55,8 +55,8 @@ export function renderBook(file: FileSystemFileHandle, selector): Promise<any> {
 				const book = ePub();
 				book.open(data, 'binary');
 
-				const rendition = book.renderTo(selector, {
-					width: 750,
+				const rendition = await book.renderTo(selector, {
+					width: 700,
 					height: '90vh'
 				});
 
@@ -64,6 +64,8 @@ export function renderBook(file: FileSystemFileHandle, selector): Promise<any> {
 
 				book.ready.then(() => {
 					resolve({
+            prev: () => rendition.prev(),
+						next: () => rendition.next(),
 						destroy: () => book.destroy()
 					});
 				});
