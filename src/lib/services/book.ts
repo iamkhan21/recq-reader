@@ -1,24 +1,31 @@
-import type { Book, BookMeta } from '$lib/domains/Book';
+import type { Book, BookMeta } from '$lib/models/Book';
 import BookWorker from '../../workers/book.worker.ts?worker';
 import ePub from 'epubjs';
 import { blobToBase64 } from '$lib/services/fileSystem';
-import { WorkerResponse } from '$lib/domains/constants';
+import { BookWorkTypes, WorkerResponse } from '$lib/models/constants';
+import { nanoid } from 'nanoid';
 
-export const createBook = (file: FileSystemHandle): Promise<Book> => {
+export const createBook = (file: FileSystemFileHandle): Promise<Book> => {
 	return new Promise((resolve, reject) => {
-		const dbWorker = new BookWorker();
+		const worker = new BookWorker();
 
-		dbWorker.postMessage(file);
-		dbWorker.onmessage = async function (e) {
+		worker.postMessage([BookWorkTypes.CREATE_BOOK, file]);
+		worker.onmessage = async function (e) {
 			const [resp, data] = e.data;
 
 			if (resp === WorkerResponse.SUCCESS) {
-				data.meta = await getBookMetadata(data.meta);
-				resolve(data as Book);
+				const meta = await getBookMetadata(data as ArrayBuffer);
+				resolve({
+					uid: nanoid(15),
+					meta,
+					file,
+					updated: Date.now(),
+					created: Date.now()
+				});
 			} else {
 				reject(data);
 			}
-			dbWorker.terminate();
+			worker.terminate();
 		};
 	});
 };
@@ -33,5 +40,37 @@ function getBookMetadata(file: ArrayBuffer): Promise<BookMeta> {
 			resolve({ cover, title });
 			book.destroy();
 		});
+	});
+}
+
+export function renderBook(file: FileSystemFileHandle, selector): Promise<any> {
+	return new Promise((resolve, reject) => {
+		const worker = new BookWorker();
+
+		worker.postMessage([BookWorkTypes.CONVERT_FILE, file]);
+		worker.onmessage = async function (e) {
+			const [resp, data] = e.data;
+
+			if (resp === WorkerResponse.SUCCESS) {
+				const book = ePub();
+				book.open(data, 'binary');
+
+				const rendition = book.renderTo(selector, {
+					width: 750,
+					height: '90vh'
+				});
+
+				rendition.display();
+
+				book.ready.then(() => {
+					resolve({
+						destroy: () => book.destroy()
+					});
+				});
+			} else {
+				reject(data);
+			}
+			worker.terminate();
+		};
 	});
 }

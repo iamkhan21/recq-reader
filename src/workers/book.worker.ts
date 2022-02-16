@@ -1,9 +1,8 @@
-import { nanoid } from 'nanoid';
 import { get } from 'idb-keyval';
-import { Entities, WorkerResponse } from '$lib/domains/constants';
-import type { Book } from '$lib/domains/Book';
+import { BookWorkTypes, Entities, WorkerResponse } from '$lib/models/constants';
+import type { Book } from '$lib/models/Book';
 
-function checkDuplication(fileHandle: FileSystemHandle) {
+function checkDuplication(fileHandle: FileSystemFileHandle) {
 	return new Promise((resolve, reject) => {
 		get(Entities.DB_NAME).then(async (books: Book[] = []) => {
 			for (const book of books) {
@@ -17,29 +16,37 @@ function checkDuplication(fileHandle: FileSystemHandle) {
 	});
 }
 
-async function createBook(fileHandle: FileSystemHandle) {
-	const file: File = await fileHandle.getFile();
-
-	return new Promise((resolve) => {
-		const reader = new FileReader();
-		reader.readAsArrayBuffer(file);
-		reader.onload = (e) => {
-			resolve({
-				uid: nanoid(15),
-				meta: e.target.result,
-				file: fileHandle,
-				updated: Date.now(),
-				created: Date.now()
-			});
-		};
+function convertFileToArray(fileHandle: FileSystemFileHandle) {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const file: File = await fileHandle.getFile();
+			const reader = new FileReader();
+			reader.readAsArrayBuffer(file);
+			reader.onload = (e) => {
+				resolve(e.target.result);
+			};
+			reader.onerror = () => {
+				reject('Error on file read');
+			};
+		} catch (e) {
+			reject(e);
+		}
 	});
 }
 
 self.onmessage = async function (e) {
+	const [type, file] = e.data;
+
 	try {
-		const file = await checkDuplication(e.data);
-		const book = await createBook(file);
-		self.postMessage([WorkerResponse.SUCCESS, book]);
+		switch (type as BookWorkTypes) {
+			case BookWorkTypes.CREATE_BOOK:
+				await checkDuplication(file);
+			case BookWorkTypes.CONVERT_FILE: {
+        const bookArray = await convertFileToArray(file);
+        self.postMessage([WorkerResponse.SUCCESS, bookArray]);
+      }
+				break;
+		}
 	} catch (e) {
 		self.postMessage([WorkerResponse.ERROR, e]);
 	}

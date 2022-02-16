@@ -1,6 +1,6 @@
 import { get, set } from 'idb-keyval';
-import type { Book } from '$lib/domains/Book';
-import { DBWorkTypes, Entities, WorkerResponse } from '$lib/domains/constants';
+import type { Book, UID } from '$lib/models/Book';
+import { DBWorkTypes, Entities, WorkerResponse } from '$lib/models/constants';
 
 function getBooks() {
 	get(Entities.DB_NAME).then((books: Book[] = []) => {
@@ -20,6 +20,13 @@ function addBook(book: Book) {
 	});
 }
 
+function findBook(uid: UID) {
+	get(Entities.DB_NAME).then((books: Book[] = []) => {
+		const book = books.find((book) => book.uid === uid);
+		self.postMessage(book);
+	});
+}
+
 self.onmessage = function (e) {
 	const [action, data] = e.data;
 	switch (action as DBWorkTypes) {
@@ -33,6 +40,10 @@ self.onmessage = function (e) {
 		}
 		case DBWorkTypes.ADD_BOOK: {
 			addBook(data as Book);
+			break;
+		}
+		case DBWorkTypes.FIND_BOOK: {
+			findBook(data as UID);
 			break;
 		}
 	}

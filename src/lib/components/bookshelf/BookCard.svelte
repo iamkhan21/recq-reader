@@ -3,7 +3,7 @@
 	export let cover: string;
 </script>
 
-<section class="p-1">
+<section>
 	<figure>
 		<img class="max-h-20rem" height="50" src={cover} alt="" />
 		<figcaption>{title}</figcaption>

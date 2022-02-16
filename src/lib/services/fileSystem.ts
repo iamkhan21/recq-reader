@@ -1,4 +1,4 @@
-export async function verifyPermission(fileHandle: FileSystemHandle) {
+export async function verifyPermission(fileHandle: FileSystemFileHandle) {
 	const opts = {};
 
 	// Check if we already have permission, if so, return true.
