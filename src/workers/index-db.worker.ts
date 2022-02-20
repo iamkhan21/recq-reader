@@ -1,6 +1,6 @@
-import { get, set } from 'idb-keyval';
-import type { Book, UID } from '$lib/models/Book';
-import { DBWorkTypes, Entities, WorkerResponse } from '$lib/models/constants';
+import { get, set, update } from "idb-keyval";
+import type { Book, UID } from "$lib/models/Book";
+import { DBWorkTypes, Entities, WorkerResponse } from "$lib/models/constants";
 
 function getBooks() {
 	get(Entities.DB_NAME).then((books: Book[] = []) => {
@@ -15,8 +15,8 @@ function setBooks(books: Book[]) {
 }
 
 function addBook(book: Book) {
-	get(Entities.DB_NAME).then((books: Book[] = []) => {
-		setBooks([book, ...books]);
+	update("Entities.DB_NAME", (books: Book[] = []) => [book, ...books]).then(() => {
+		self.postMessage(WorkerResponse.SUCCESS);
 	});
 }
 

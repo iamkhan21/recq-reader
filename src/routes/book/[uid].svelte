@@ -10,14 +10,14 @@
 </script>
 
 <script lang="ts">
-	import { verifyPermission } from '$lib/services/fileSystem';
-	import { goto } from '$app/navigation';
-	import type { Book, BookControls, UID } from '$lib/models/Book';
-	import { findBookToStorage } from '$lib/services/storage';
-	import { showAlert } from '$lib/utils/alerts';
-	import { onMount } from 'svelte';
-	import { renderBook } from '$lib/services/book';
-	import Spinner from '$lib/components/shared/Spinner.svelte';
+	import { verifyPermission } from "$lib/services/fileSystem";
+	import { goto } from "$app/navigation";
+	import type { Book, BookControls, UID } from "$lib/models/Book";
+	import { findBookToStorage } from "$lib/services/storage";
+	import { showAlert } from "$lib/utils/alerts";
+	import { onMount } from "svelte";
+	import { renderBook } from "$lib/services/book";
+	import Spinner from "$lib/components/shared/Spinner.svelte";
 
 	export let uid: UID;
 
@@ -32,25 +32,25 @@
 		} catch (e) {
 			console.log(e);
 			showAlert({
-				title: 'Need permission',
-				html: '<p>Due to browser security rules we need to request permission to access your file system,<br/> please click the button below to continue reading.</p>',
-				confirmButtonText: 'Grant permission',
-				confirmButtonColor: '#2f9e44',
-				denyButtonText: 'To bookshelf',
+				title: "Need permission",
+				html: "<p>Due to browser security rules we need to request permission to access your file system,<br/> please click the button below to continue reading.</p>",
+				confirmButtonText: "Grant permission",
+				confirmButtonColor: "#2f9e44",
+				denyButtonText: "To bookshelf",
 				showDenyButton: true,
 				allowOutsideClick: false
 			}).then(({ isConfirmed }) => {
 				if (isConfirmed) {
 					checkAndRenderBook(book);
 				} else {
-					goto('/');
+					goto("/");
 				}
 			});
 		}
 	}
 
 	function renderBookFile(book: Book) {
-		renderBook(book.file, 'viewer').then((data: BookControls) => {
+		renderBook(book.file, "viewer").then((data: BookControls) => {
 			bookObj = book;
 
 			({ destroy: destroyBook, next: nextPage, prev: prevPage } = data);
@@ -67,13 +67,13 @@
 			.then(checkAndRenderBook)
 			.catch(() => {
 				showAlert({
-					title: 'Book not found',
+					title: "Book not found",
 					text: "Can't find this book in system.",
-					confirmButtonColor: '#1c7ed6',
-					confirmButtonText: 'Go to bookshelf'
+					confirmButtonColor: "#1c7ed6",
+					confirmButtonText: "Go to bookshelf"
 				}).then(({ isConfirmed }) => {
 					if (isConfirmed) {
-						goto('/');
+						goto("/");
 					}
 				});
 			});
@@ -86,7 +86,7 @@
 
 <svelte:head>
 	<title>
-		{bookObj?.meta?.title || 'Loading book...'} | RecqReader
+		{bookObj?.meta?.title || "Loading book..."} | RecqReader
 	</title>
 </svelte:head>
 
@@ -107,6 +107,7 @@
 		align-items: center;
 		justify-content: center;
 	}
+
 	.btn {
 		margin-inline: 20px;
 	}

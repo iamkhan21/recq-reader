@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-	import { browser } from '$app/env';
-	import { setBooks } from '$lib/store/books';
-	import { loadBooksFromStorage } from '$lib/services/storage';
+	import { browser } from "$app/env";
+	import { setBooks } from "$lib/store/books";
+	import { loadBooksFromStorage } from "$lib/services/storage";
 
 	export async function load() {
 		if (browser) {
@@ -15,10 +15,10 @@
 </script>
 
 <script lang="ts">
-	import '../assets/styles/main.pcss';
-	import 'uno.css';
-	import { onMount } from 'svelte';
-	import { checkFeaturesSupport } from '$lib/utils/checkFeaturesSupport';
+	import "../assets/styles/main.pcss";
+	import "uno.css";
+	import { onMount } from "svelte";
+	import { checkFeaturesSupport } from "$lib/utils/checkFeaturesSupport";
 
 	onMount(() => {
 		checkFeaturesSupport();

@@ -1,6 +1,6 @@
-import type { Book, UID } from '$lib/models/Book';
-import DBWorker from '../../workers/index-db.worker.ts?worker';
-import { DBWorkTypes } from '$lib/models/constants';
+import type { Book, UID } from "$lib/models/Book";
+import DBWorker from "../../workers/index-db.worker.ts?worker";
+import { DBWorkTypes } from "$lib/models/constants";
 
 export const writeBooksToStorage = (books: Book[]) => {
 	const dbWorker = new DBWorker();
@@ -41,7 +41,7 @@ export const findBookToStorage = (uid: UID): Promise<Book> => {
 
 		dbWorker.postMessage([DBWorkTypes.FIND_BOOK, uid]);
 		dbWorker.onmessage = function (e) {
-			e.data ? resolve(e.data as Book) : reject('Book not found');
+			e.data ? resolve(e.data as Book) : reject("Book not found");
 			dbWorker.terminate();
 		};
 	});

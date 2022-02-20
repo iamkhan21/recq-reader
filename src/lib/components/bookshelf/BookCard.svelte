@@ -5,7 +5,7 @@
 
 <section>
 	<figure>
-		<img class="max-h-20rem" height="50" src={cover} alt="" />
+		<img alt="" class="max-h-20rem" height="50" src={cover} />
 		<figcaption>{title}</figcaption>
 	</figure>
 </section>

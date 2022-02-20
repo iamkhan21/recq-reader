@@ -11,15 +11,12 @@
 <style lang="postcss">
 	.spinner-holder {
 		position: absolute;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		left: 0;
+		inset: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background-color: rgba(0, 0, 0, 0.6);
-    z-index: 100;
+		z-index: 100;
 	}
 
 	.spinner {

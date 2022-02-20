@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { addBook } from '$lib/store/books';
-	import { createBook } from '$lib/services/book';
+	import { addBook } from "$lib/store/books";
+	import { createBook } from "$lib/services/book";
 
 	async function openFileInput() {
 		const [fileHandle] = await window.showOpenFilePicker({
 			multiple: false,
 			excludeAcceptAllOption: true,
-			types: [{ description: 'Books', accept: { 'application/epub+zip': ['.epub'] } }]
+			types: [{ description: "Books", accept: { "application/epub+zip": [".epub"] } }]
 		});
 
 		fileHandle &&

@@ -1,9 +1,9 @@
-import type { Book, BookControls, BookMeta } from '$lib/models/Book';
-import BookWorker from '../../workers/book.worker.ts?worker';
-import ePub from 'epubjs';
-import { blobToBase64 } from '$lib/services/fileSystem';
-import { BookWorkTypes, WorkerResponse } from '$lib/models/constants';
-import { nanoid } from 'nanoid';
+import type { Book, BookControls, BookMeta } from "$lib/models/Book";
+import BookWorker from "../../workers/book.worker.ts?worker";
+import ePub from "epubjs";
+import { blobToBase64 } from "$lib/services/fileSystem";
+import { BookWorkTypes, WorkerResponse } from "$lib/models/constants";
+import { nanoid } from "nanoid";
 
 export const createBook = (file: FileSystemFileHandle): Promise<Book> => {
 	return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ export const createBook = (file: FileSystemFileHandle): Promise<Book> => {
 function getBookMetadata(file: ArrayBuffer): Promise<BookMeta> {
 	return new Promise((resolve, reject) => {
 		const book = ePub();
-		book.open(file, 'binary');
+		book.open(file, "binary");
 
 		book.loaded.metadata.then(async ({ title }) => {
 			const cover = await blobToBase64(await book.coverUrl());
@@ -53,18 +53,18 @@ export function renderBook(file: FileSystemFileHandle, selector): Promise<BookCo
 
 			if (resp === WorkerResponse.SUCCESS) {
 				const book = ePub();
-				book.open(data, 'binary');
+				book.open(data, "binary");
 
 				const rendition = await book.renderTo(selector, {
 					width: 700,
-					height: '90vh'
+					height: "90vh"
 				});
 
 				rendition.display();
 
 				book.ready.then(() => {
 					resolve({
-            prev: () => rendition.prev(),
+						prev: () => rendition.prev(),
 						next: () => rendition.next(),
 						destroy: () => book.destroy()
 					});

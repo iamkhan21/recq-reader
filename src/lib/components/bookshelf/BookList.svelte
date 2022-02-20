@@ -1,6 +1,6 @@
 <script lang="ts">
-	import BookCard from '$lib/components/bookshelf/BookCard.svelte';
-	import { books } from '$lib/store/books.ts';
+	import BookCard from "$lib/components/bookshelf/BookCard.svelte";
+	import { books } from "$lib/store/books.ts";
 </script>
 
 <section class="book__grid my-4">
@@ -28,7 +28,7 @@
 		}
 
 		&__link {
-      color: var(--text1);
+			color: var(--text1);
 			padding: 0;
 			margin: 0;
 		}
