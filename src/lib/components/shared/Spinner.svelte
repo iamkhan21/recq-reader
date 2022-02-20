@@ -16,7 +16,8 @@
 		align-items: center;
 		justify-content: center;
 		background-color: rgba(0, 0, 0, 0.6);
-		z-index: 100;
+    backdrop-filter: blur(10px);
+    z-index: 100;
 	}
 
 	.spinner {

@@ -56,6 +56,7 @@ export function renderBook(file: FileSystemFileHandle, selector): Promise<BookCo
 				book.open(data, "binary");
 
 				const rendition = await book.renderTo(selector, {
+					flow: "paginated",
 					width: 700,
 					height: "90vh"
 				});
