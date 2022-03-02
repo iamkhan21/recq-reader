@@ -9,3 +9,11 @@
 		<figcaption>{title}</figcaption>
 	</figure>
 </section>
+
+<style lang="postcss">
+	section {
+		&:hover {
+			box-shadow: var(--shadow-4);
+		}
+	}
+</style>
